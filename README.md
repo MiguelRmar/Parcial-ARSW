@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # java-getting-started
 
 [![CircleCI](https://circleci.com/gh/heroku/java-getting-started.svg?style=svg)](https://circleci.com/gh/heroku/java-getting-started)
@@ -40,3 +41,6 @@ $ heroku open
 For more information about using Java on Heroku, see these Dev Center articles:
 
 - [Java on Heroku](https://devcenter.heroku.com/categories/java)
+=======
+# Parcial-ARSW
+>>>>>>> a8da65cf2f5eece09cd7930448a2a2c0fd097fa7
