@@ -43,19 +43,23 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import static javax.swing.UIManager.put;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @SpringBootApplication
 public class Main {
   
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String GET_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=fb&apikey=Q1QZFVJQ21K7C6XM";
+    private static final String GET_URL = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=722220b62b4d25b0ac383c42907f3192";
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
     @Autowired
     private DataSource dataSource;
+    static StringBuffer  responses = new StringBuffer();
+    static Data dt = new Data();
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Main.class, args);
@@ -77,6 +81,7 @@ public class Main {
 
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
+                responses.append(inputLine);
             }
             in.close();
 
@@ -88,10 +93,10 @@ public class Main {
         System.out.println("GET DONE");
     }
 
-    @RequestMapping("/")
+    /***@RequestMapping("/")
     String index() {
         return "index";
-    }
+    }***/
 
     @RequestMapping("/db")
     String db(Map<String, Object> model) {
@@ -136,5 +141,22 @@ public class Main {
         model.put("science", "E=mc^2: " + energy + " = " + m.toString());
         return "hello";
     }
-
+    
+    @RequestMapping("/")
+    String Data(Map<String, Object> model) {
+        
+        String response = dt.getData();
+        RelativisticModel.select();
+        String energy = System.getenv().get("ENERGY");
+        
+        if (energy == null) {
+            energy = "12 GeV";
+        }
+        Amount<Mass> m = Amount.valueOf(energy).to(KILOGRAM);
+        model.put("science", responses);
+        
+        return "index";
+    }
+       
+    
 }
